@@ -72,6 +72,18 @@ class linked
             }
         }
         
+        linked* end(linked *head,linked *tail)
+        {
+            tail=head;
+            
+            while(tail!=NULL)
+            {
+                tail=tail->next;
+            }
+            
+            return tail;
+        }
+        
         int max(linked *head,linked *t)
         {
             int m=0;
@@ -92,18 +104,81 @@ class linked
                 return 0;
             }
         }
+        
+        void reverse(linked *head,linked *tail,linked *t)
+        {
+            linked *previousNode=NULL,*currentNode=NULL,*nextNode=NULL,*temp;
+            
+            currentNode=head;
+            
+            while(currentNode!=NULL)
+            {
+                nextNode=currentNode->next;
+                currentNode->next=previousNode;
+                previousNode=currentNode;
+                currentNode=nextNode;
+            }
+            
+            temp=previousNode;
+            cout<<endl<<endl;
+            
+            while(temp != NULL)
+            {
+                cout<<temp->data<<" ";
+                temp = temp->next;
+            }
+        }
+        
+        
+        bool is_loop(linked *head)
+        {
+            linked *p,*q;
+            
+            p=head;
+            q=head;
+            
+            do
+            {
+                if((p!=NULL)&&(q!=NULL))
+                {
+                    p=p->next;
+                    q=q->next;
+                    
+                    if(q!=NULL)
+                    {
+                        q=q->next;
+                    }
+                }
+                else
+                {
+                    break;
+                }
+                
+            }while(p!=q);
+            
+            if(p==q&&q!=NULL)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 };
 
 
 int main()
 {
     linked l;
-    linked *head,*t;
+    linked *head,*tail,*t;
     bool b=false;
     
     int a[]={10,20,30,40,50,60,70,80};
 
     head=l.create(a,8,head);
+    tail=l.end(head,tail);
+    
     t=head;
     
     l.display(head,t);
@@ -120,6 +195,24 @@ int main()
     cout<<l.count(head,t);
     cout<<endl;
     cout<<"Maximum number is "<<l.max(head,t);
+    l.reverse(head,tail,t);
+    
+    l.display(head,t);
+    
+    if(l.is_loop(head))
+    {
+        cout<<endl<<"Linked list contain Loop";
+    }
+    else
+    {
+        cout<<endl<<"Linked list doesn't contain Loop";
+    }
 }
+
+
+
+
+
+
 
 
